@@ -1,0 +1,49 @@
+name: Tree-sitter parser setup
+description: Set up a tree-sitter parser repo
+
+branding:
+  color: green
+  icon: settings
+
+inputs:
+  fetch-depth:
+    description: Repository fetch depth
+    default: "2"
+  submodules:
+    description: Initialize submodules
+    default: "false"
+  node-version:
+    description: NodeJS version
+    default: latest
+  rust-toolchain:
+    description: Rust toolchain
+    default: stable
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: ${{inputs.fetch-depth}}
+        submodules: ${{inputs.submodules}}
+    - name: Set up NodeJS
+      uses: actions/setup-node@v4
+      with:
+        cache: npm
+        node-version: ${{inputs.node-version}}
+    - name: Set up Rust
+      uses: actions-rust-lang/setup-rust-toolchain@v1.8
+      with:
+        toolchain: ${{inputs.rust-toolchain}}
+    - name: Install dependencies
+      shell: sh
+      run: npm ci
+    - name: Add node modules to PATH
+      shell: sh
+      run: printf '%s/node_modules/.bin\n' "$PWD" >> "$GITHUB_PATH"
+    - name: Configure tree-sitter
+      shell: bash
+      run: |-
+        config="$(tree-sitter init-config | cut -c32- | tr '\\' '/')"
+        printf '{"parser-directories":["%q"]}' "$(dirname "$PWD")" > "$config"
