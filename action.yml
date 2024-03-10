@@ -38,7 +38,7 @@ runs:
         toolchain: ${{inputs.rust-toolchain}}
     - name: Install dependencies
       shell: sh
-      run: npm ci
+      run: npm ci --legacy-peer-deps
     - name: Add node modules to PATH
       shell: sh
       run: printf '%s/node_modules/.bin\n' "$PWD" >> "$GITHUB_PATH"

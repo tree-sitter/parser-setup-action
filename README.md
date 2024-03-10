@@ -32,8 +32,8 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: tree-sitter/parser-setup-action@v1.1
+      - uses: tree-sitter/parser-setup-action@v1.2
         with:
           node-version: 20
-      - uses: tree-sitter/parser-test-action@v1.1
+      - uses: tree-sitter/parser-test-action@v1.2
 ```
