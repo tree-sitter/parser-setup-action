@@ -22,6 +22,12 @@ inputs:
 runs:
   using: composite
   steps:
+    - name: Deprecate action
+      shell: sh
+      run: |-
+        printf '::warning::%s %s\n' \
+          'tree-sitter/parser-setup-action is deprecated.' \
+          'Use actions/checkout followed by tree-sitter/setup-action/cli.'
     - name: Checkout repository
       uses: actions/checkout@v4
       with:
