@@ -9,12 +9,9 @@ fetch-depth:
 submodules:
   description: Initialize submodules
   default: false
-node-version:
-  description: NodeJS version
+tree-sitter-ref:
+  description: A tree-sitter commit, tag, or branch
   default: latest
-rust-toolchain:
-  description: Rust toolchain
-  default: stable
 ```
 
 ## Example configuration
@@ -32,8 +29,8 @@ jobs:
     name: Run tests
     runs-on: ubuntu-latest
     steps:
-      - uses: tree-sitter/parser-setup-action@v1.2
+      - uses: tree-sitter/parser-setup-action@v2
         with:
-          node-version: 20
-      - uses: tree-sitter/parser-test-action@v1.2
+          submodules: true
+      - uses: tree-sitter/parser-test-action@v2
 ```
